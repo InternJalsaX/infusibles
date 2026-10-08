@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    --header-height: 149px;
+    --announcement-height: 40px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface font-body text-body text-ink-body antialiased md:text-body-lg;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-heading font-normal text-ink;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  img {
+    @apply max-w-full;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(4 44 100 / 0.5);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(4 44 100 / 0.15);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+   Components (typography scale, layout, buttons, form fields)
+   ------------------------------------------------------------------ */
+@layer components {
+  .page-width {
+    @apply mx-auto w-full max-w-page px-gutter md:px-gutter-lg;
+  }
+
+  .h1 {
+    @apply font-heading text-h1-m font-normal md:text-h1;
+  }
+  .h2 {
+    @apply font-heading text-h2-m font-normal md:text-h2;
+  }
+  .h3 {
+    @apply font-heading text-h3-m font-normal md:text-h3;
+  }
+  .h4 {
+    @apply font-heading text-h4 font-normal;
+  }
+  .h5 {
+    @apply font-heading text-h5-m font-normal md:text-h5;
+  }
+
+  .section-y {
+    @apply py-section-m md:py-section;
+  }
+
+  /* Pill buttons (Dawn: min-height 54px, padding 0 34.5px, radius 40px) */
+  .btn {
+    @apply relative inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-pill px-[34.5px] text-center font-body text-btn transition-[background-color,color,box-shadow,transform] duration-200 disabled:cursor-not-allowed disabled:opacity-50 md:min-h-[54px];
+  }
+  .btn-primary {
+    @apply bg-black text-[#f3f3f3] hover:shadow-[0_0_0_2px_#000];
+  }
+  .btn-secondary {
+    @apply border border-black bg-transparent text-black hover:shadow-[0_0_0_1px_#000];
+  }
+  .btn-light {
+    @apply bg-white text-maroon-600 hover:shadow-[0_0_0_2px_#fff];
+  }
+  .btn-navy {
+    @apply bg-navy text-white hover:bg-navy-600;
+  }
+  .btn-blue {
+    @apply bg-accent-blue text-white hover:bg-accent-blue-dark;
+  }
+  .btn-maroon {
+    @apply bg-maroon text-white hover:bg-maroon-600;
+  }
+
+  /* Underline that grows on hover (nav + inline links) */
+  .link-underline {
+    @apply underline-offset-[0.3rem] hover:underline;
+    text-decoration-thickness: 1px;
+  }
+
+  /* Form fields (Dawn: 1px border at 55% opacity, square corners) */
+  .field {
+    @apply relative flex;
+  }
+  .field-input {
+    @apply h-[52px] w-full border border-line-strong bg-transparent px-[17.25px] pb-0 pt-[18px] text-body-lg text-ink outline-none transition-shadow placeholder:text-transparent focus:shadow-[0_0_0_1px_rgb(17_17_17_/_0.55)];
+  }
+  .field-textarea {
+    @apply min-h-[116px] w-full resize-y border border-line-strong bg-transparent px-[17.25px] pb-3 pt-[28px] text-body-lg text-ink outline-none placeholder:text-transparent focus:shadow-[0_0_0_1px_rgb(17_17_17_/_0.55)];
+  }
+  .field-label {
+    @apply pointer-events-none absolute left-[17.25px] top-[14px] text-body-lg text-ink-body transition-all duration-150 peer-focus:top-[6px] peer-focus:text-[12px] peer-[:not(:placeholder-shown)]:top-[6px] peer-[:not(:placeholder-shown)]:text-[12px];
+  }
+
+  /* Rich text blocks */
+  .rte p + p {
+    @apply mt-4;
+  }
+  .rte strong {
+    @apply font-bold text-ink/80;
+  }
+  .rte ul {
+    @apply list-disc space-y-0 pl-[2.6rem];
+  }
+  .rte a {
+    @apply underline underline-offset-2 hover:text-navy;
+  }
+  .rte h2 {
+    @apply h3 mb-3 mt-8 text-ink;
+  }
+  .rte h3 {
+    @apply h4 mb-2 mt-6 text-ink;
+  }
+
+  /* Thin scrollbar for horizontal scrollers */
+  .scroll-thin {
+    scrollbar-width: thin;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .pause-on-hover:hover {
+    animation-play-state: paused;
+  }
+}

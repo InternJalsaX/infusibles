@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Search, ShoppingBag, User, X } from 'lucide-react';
 import Logo from '../ui/Logo';
@@ -38,11 +39,25 @@ function CartButton() {
 export default function Header() {
   const { overlay, open, toggle } = useUI();
   const { customer } = useAccount();
-  const { compact, progressRef } = useHeaderState();
+  const { compact } = useHeaderState();
   const menuOpen = overlay === 'menu';
+  const headerRef = useRef(null);
+
+  // Publish the visible chrome height (announcement + header) as --chrome so
+  // pinned scroll scenes can sit exactly beneath the sticky header.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return undefined;
+    const set = () => document.documentElement.style.setProperty('--chrome', `${Math.round(el.getBoundingClientRect().bottom)}px`);
+    const ro = new ResizeObserver(set);
+    ro.observe(el);
+    set();
+    return () => ro.disconnect();
+  }, []);
 
   return (
     <header
+      ref={headerRef}
       data-compact={compact || undefined}
       className={`sticky top-[var(--announcement-height)] z-40 bg-white/95 backdrop-blur-[6px] transition-shadow duration-500 ${
         compact ? 'shadow-[0_8px_24px_-18px_rgb(4_44_100_/_0.45)]' : 'shadow-none'
@@ -74,7 +89,7 @@ export default function Header() {
 
         {/* Logo */}
         <div className="flex justify-center px-4 leading-none">
-          <Logo imgClassName={compact ? 'w-[80px] lg:w-[96px]' : 'w-[104px] md:w-[124px] lg:w-[150px]'} />
+          <Logo imgClassName={compact ? 'w-[78px] lg:w-[92px]' : 'w-[96px] md:w-[118px] lg:w-[140px]'} />
         </div>
 
         {/* Right */}
@@ -93,11 +108,6 @@ export default function Header() {
       </div>
 
       <Navigation compact={compact} />
-
-      {/* Reading progress */}
-      <div className="absolute inset-x-0 bottom-0 h-[2px] overflow-hidden bg-navy/[0.06]" aria-hidden="true">
-        <div ref={progressRef} className="h-full origin-left scale-x-0 bg-maroon will-change-transform" />
-      </div>
     </header>
   );
 }

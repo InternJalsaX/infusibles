@@ -22,6 +22,24 @@
     scroll-behavior: smooth;
   }
 
+  /* Lenis smooth scrolling */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  /* Custom cursor: hide the system arrow except over text inputs */
+  html.has-cursor,
+  html.has-cursor *:not(input):not(textarea):not(select) {
+    cursor: none !important;
+  }
+
   body {
     @apply bg-surface font-body text-body text-ink-body antialiased md:text-body-lg;
   }

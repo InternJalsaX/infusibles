@@ -1,17 +1,16 @@
-import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
-import HeroSlideshow from '../components/home/HeroSlideshow';
-import BrandIntro from '../components/home/BrandIntro';
-import FeaturedProducts from '../components/home/FeaturedProducts';
+import HeroScene from '../components/scenes/HeroScene';
+import StatementScene from '../components/scenes/StatementScene';
+import KineticScene from '../components/scenes/KineticScene';
+import ZoomScene from '../components/scenes/ZoomScene';
+import HorizontalProducts from '../components/scenes/HorizontalProducts';
+import CategoryScene from '../components/scenes/CategoryScene';
 import ApplicationAreas from '../components/home/ApplicationAreas';
 import WhyChooseUs from '../components/home/WhyChooseUs';
-import ImageWithText from '../components/sections/ImageWithText';
 import CtaBanner from '../components/sections/CtaBanner';
-import RichText from '../components/ui/RichText';
 import FAQ from '../components/ui/FAQ';
-import { HERO_SLIDES, HOME } from '../data/content';
+import { HOME, HOME_SCENES, PRODUCT_OVERVIEW } from '../data/content';
 import { HOME_FAQS } from '../data/faqs';
-import { TOP_PRODUCTS } from '../data/products';
+import { getProduct } from '../data/products';
 import { SITE } from '../data/site';
 import { useSeo } from '../hooks/useSeo';
 
@@ -27,33 +26,47 @@ const ORG_LD = {
   areaServed: ['AE', 'SA', 'OM', 'QA', 'BH', 'KW', 'IN', 'EG', 'JO', 'ZA'],
 };
 
+const TOP = HOME_SCENES.topHandles.map(getProduct).filter(Boolean);
+
+// Product families for the stepper: the six categories plus accessories.
+const FAMILIES = [
+  ...PRODUCT_OVERVIEW.categories,
+  {
+    id: 'accessories',
+    title: PRODUCT_OVERVIEW.accessories.title,
+    image: PRODUCT_OVERVIEW.accessories.image,
+    alt: PRODUCT_OVERVIEW.accessories.alt,
+    to: PRODUCT_OVERVIEW.accessories.to,
+    text: [[[`${PRODUCT_OVERVIEW.accessories.items.join(', ')} — the finishing components of garment construction.`]]],
+  },
+];
+
+/**
+ * Home is told as a sequence of scroll-driven scenes (pinned stages that
+ * animate with scroll), followed by regular sections for application areas,
+ * enquiries, reasons to choose Infuse and the FAQ.
+ */
 export default function Home() {
   useSeo({ path: '/', jsonLd: ORG_LD });
+  const { hero, kinetic, zoom } = HOME_SCENES;
 
   return (
     <>
-      <h1 className="sr-only">Infuse – premium fusible interlinings for the Gulf, India and South Africa</h1>
-      <HeroSlideshow slides={HERO_SLIDES} />
+      <HeroScene image={hero.image} title={hero.title} kicker={hero.kicker} notes={hero.notes} actions={hero.actions} />
 
-      <BrandIntro intro={HOME.intro} />
+      <StatementScene eyebrow={HOME.intro.eyebrow} segments={HOME.intro.body} facts={HOME.intro.facts} />
 
-      <ImageWithText eyebrow="Who we are" image={HOME.story.image} ratio={HOME.story.ratio} alt={HOME.story.alt} heading={HOME.story.title}>
-        <RichText paragraphs={HOME.story.body} className="max-w-[620px] text-pretty" />
-      </ImageWithText>
+      <KineticScene words={kinetic.words} heading={HOME.story.title} body={HOME.story.body[0]} images={kinetic.images} link={kinetic.link} />
 
-      <ImageWithText
-        eyebrow="Our craft"
-        image={HOME.precision.image}
-        ratio={HOME.precision.ratio}
-        alt={HOME.precision.alt}
-        imageSide="right"
-        heading={HOME.precision.title}
-        className="bg-surface-tint"
-      >
-        <RichText paragraphs={HOME.precision.body} className="max-w-[620px] text-pretty" />
-      </ImageWithText>
+      <ZoomScene eyebrow="Our craft" heading={['Precision', 'in Every Layer']} image={zoom.image} body={HOME.precision.body} link={zoom.link} />
 
-      <FeaturedProducts products={TOP_PRODUCTS} viewAllTo="/collections/all" />
+      <HorizontalProducts
+        eyebrow="Best sellers"
+        title="Top Products"
+        intro="The interlinings our customers reorder most — from soft fusibles to hard collar qualities."
+        products={TOP}
+        viewAllTo="/collections/all"
+      />
 
       <CtaBanner
         eyebrow="Wholesale enquiries"
@@ -66,32 +79,7 @@ export default function Home() {
 
       <ApplicationAreas items={HOME.applications} />
 
-      <ImageWithText
-        eyebrow="The range"
-        image={HOME.ourProducts.image}
-        ratio={HOME.ourProducts.ratio}
-        alt={HOME.ourProducts.alt}
-        heading={HOME.ourProducts.title}
-        className="bg-surface-tint"
-      >
-        <ul className="divide-y divide-navy/10 border-y border-navy/10">
-          {HOME.ourProducts.items.map((item) => (
-            <li key={item.label}>
-              <Link
-                to={item.to}
-                className="group flex items-center justify-between gap-4 py-3.5 text-ink/80 transition-colors duration-200 hover:text-navy"
-              >
-                <span className="transition-transform duration-300 ease-brand group-hover:translate-x-1.5">{item.label}</span>
-                <ArrowUpRight
-                  className="h-4 w-4 shrink-0 text-navy/40 transition-all duration-300 ease-brand group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-maroon"
-                  strokeWidth={1.75}
-                  aria-hidden="true"
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </ImageWithText>
+      <CategoryScene eyebrow="The range" title={HOME.ourProducts.title} items={FAMILIES} />
 
       <WhyChooseUs items={HOME.why} />
 

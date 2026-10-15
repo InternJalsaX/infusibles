@@ -5,20 +5,41 @@ import { C } from './products';
 // reserves space so nothing shifts while photos load.
 // Rich text is written as segments: [text] or [text, true] for bold.
 
-export const HERO_SLIDES = [
-  {
-    image: 'Infuse_Interlining_Home_Page_Banner.jpg',
-    alt: 'The invisible strength behind every garment — a tailored grey suit beside a crisp white thobe collar',
-    cta: { label: 'Contact Us', to: '/contact' },
-    buttonStyle: 'light',
+export const HOME_SCENES = {
+  hero: {
+    image: {
+      src: 'articles/give_me_an_image_of_shirt_with_crisp_collar_b0e515ef-9430-4b17-9567-8d0d5972b072.jpg',
+      alt: 'Close-up of a crisp white shirt collar',
+    },
+    // The brand's own campaign line, from the original home banner.
+    kicker: 'Behind every garment',
+    title: ['The Invisible', 'Strength'],
+    notes: [
+      { label: 'The range', value: 'Woven & non-woven interlinings, fabrics and trims' },
+      { label: 'Supplying', value: 'GCC · India · South Africa' },
+    ],
+    actions: [
+      { label: 'Explore the range', to: '/products' },
+      { label: 'Wholesale enquiry', to: '/contact' },
+    ],
   },
-  {
-    image: 'home_page_banner_2_final.jpg',
-    alt: 'Connecting borders with premium interlinings and fabric — interlining rolls between two city skylines',
-    cta: { label: 'Contact Us', to: '/contact' },
-    buttonStyle: 'outline',
+  kinetic: {
+    // Words drawn from the brand copy ("shape and strength", "structure").
+    words: ['Structure · Shape ·', 'Strength · Structure'],
+    images: [
+      { src: 'Img_-_11_46cf5d2a-0ee9-40c6-85fc-31e6c69b2f48.png', ratio: 2032 / 1852, alt: 'Shirt collar, pocket and cuff pieces over a maroon circle' },
+      { src: 'man_sewing_interlining_inside_fabric.png', ratio: 1024 / 812, alt: 'Tailor hand-stitching interlining inside a jacket front' },
+      { src: 'packaging_of_infuse_interlining.jpg', ratio: 1512 / 997, alt: 'Infuse branded packaging and swatch tags' },
+    ],
+    link: { label: 'About Infuse', to: '/about' },
   },
-];
+  zoom: {
+    image: { src: 'Blazer_interlining_roll.png', alt: 'Black, white and cream blazer interlining rolls' },
+    link: { label: 'See the product range', to: '/products' },
+  },
+  // The store's "Top Products" collection.
+  topHandles: ['if1035hf', 'if2366', 'web', 'if2344', 'if32-23hf', 'ifa85', 'if660d', 'if180'],
+};
 
 export const HOME = {
   intro: {

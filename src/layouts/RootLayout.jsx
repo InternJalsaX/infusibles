@@ -7,8 +7,10 @@ import SearchModal from '../components/layout/SearchModal';
 import Footer from '../components/layout/Footer';
 import WhatsAppButton from '../components/layout/WhatsAppButton';
 import BackToTop from '../components/layout/BackToTop';
+import Cursor from '../components/ui/Cursor';
 import CartDrawer from '../components/cart/CartDrawer';
 import { useUI } from '../context/UIContext';
+import { scrollToElement, scrollToTop, startSmoothScroll, stopSmoothScroll } from '../lib/smoothScroll';
 
 function PageFallback() {
   return (
@@ -28,17 +30,22 @@ function useRouteEffects() {
     if (hash) {
       const el = document.getElementById(hash.slice(1));
       if (el) {
-        requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+        requestAnimationFrame(() => scrollToElement(el));
         return;
       }
     }
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    scrollToTop(true);
   }, [pathname, hash, search, close]);
 }
 
 export default function RootLayout() {
   const { pathname } = useLocation();
   useRouteEffects();
+
+  useEffect(() => {
+    startSmoothScroll();
+    return stopSmoothScroll;
+  }, []);
 
   return (
     <>
@@ -65,6 +72,7 @@ export default function RootLayout() {
       <Footer />
       <BackToTop />
       <WhatsAppButton />
+      <Cursor />
     </>
   );
 }

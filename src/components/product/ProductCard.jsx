@@ -53,6 +53,7 @@ function ProductCard({ product, onQuickAdd, priority = false, sizes }) {
         to={url}
         className="relative block overflow-hidden bg-surface-subtle ring-1 ring-inset ring-ink/[0.04] transition-shadow duration-500 ease-brand group-hover:shadow-[0_22px_40px_-24px_rgb(4_44_100_/_0.55)]"
         aria-label={`${product.title} – view details`}
+        data-cursor="View"
       >
         <Image
           src={product.images[0]}

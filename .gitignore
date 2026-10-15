@@ -8,3 +8,4 @@ dist
 # Local tooling and reference material (not part of the site)
 .claude/
 Screenshot *.png
+.env*.local

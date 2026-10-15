@@ -1,6 +1,5 @@
 import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import AnnouncementBar from '../components/layout/AnnouncementBar';
 import Header from '../components/layout/Header';
 import MobileMenu from '../components/layout/MobileMenu';
 import SearchModal from '../components/layout/SearchModal';
@@ -55,9 +54,6 @@ export default function RootLayout() {
       >
         Skip to content
       </a>
-      <div className="sticky top-0 z-50">
-        <AnnouncementBar />
-      </div>
       <Header />
       <MobileMenu />
       <SearchModal />

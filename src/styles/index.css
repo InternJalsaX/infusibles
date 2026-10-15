@@ -7,7 +7,7 @@
    ------------------------------------------------------------------ */
 @layer base {
   :root {
-    --announcement-height: 40px;
+    --announcement-height: 0px; /* announcement bar removed */
 
     /* Motion system — one easing family, three speeds. */
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

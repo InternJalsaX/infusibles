@@ -10,9 +10,9 @@ export default function ProductGrid({ products, priorityCount = 0, className = '
 
   return (
     <>
-      <ul className={`grid grid-cols-2 gap-x-[6px] gap-y-8 md:gap-x-2 lg:grid-cols-4 ${className}`}>
+      <ul className={`grid grid-cols-2 gap-x-3 gap-y-10 md:gap-x-5 md:gap-y-14 lg:grid-cols-4 ${className}`}>
         {products.map((product, i) => (
-          <Reveal as="li" key={product.handle} delay={Math.min(i % 4, 3) * 0.06}>
+          <Reveal as="li" key={product.handle} delay={(i % 4) * 0.08}>
             <ProductCard product={product} onQuickAdd={setQuick} priority={i < priorityCount} />
           </Reveal>
         ))}

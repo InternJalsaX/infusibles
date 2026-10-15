@@ -22,7 +22,15 @@ export const HERO_SLIDES = [
 
 export const HOME = {
   intro: {
+    eyebrow: 'Interlinings · Fabrics · Trims',
     title: 'Infuse - Edge In Fashion',
+    // Facts already stated elsewhere on the site (markets, range, roll sizes, dispatch).
+    facts: [
+      { value: 'GCC · India · South Africa', label: 'Markets we supply' },
+      { value: 'Woven & non-woven', label: 'Interlinings, fabrics & trims' },
+      { value: '5 m & 10 m rolls', label: 'Alongside full rolls' },
+      { value: '1–3 business days', label: 'Dispatch on stocked items' },
+    ],
     body: [
       ['Infuse', true],
       [' supplies '],
@@ -63,12 +71,12 @@ export const HOME = {
     button: { label: 'Contact Us', to: '/contact' },
   },
   applications: [
-    { label: 'Arabic Thobe', icon: 'thobe_interlining.png', to: `/collections/${C.THOBE}` },
-    { label: 'Shirts', icon: 'shirt_icon_for_mens_interlining.png', to: `/collections/${C.SHIRT}` },
-    { label: 'Jackets & Blazers', icon: 'jacket_image.png', to: `/collections/${C.JACKET}` },
-    { label: 'Trousers', icon: 'trouser_image.png', to: `/collections/${C.NONWOVEN}` },
-    { label: 'Women’s Wear', icon: 'womens_dress_image.png', to: `/collections/${C.SHIRT}` },
-    { label: 'Embroidery', icon: 'embroidery_image.png', to: `/collections/${C.EMBROIDERY}` },
+    { label: 'Arabic Thobe', note: 'Collars, cuffs & plackets', icon: 'thobe_interlining.png', to: `/collections/${C.THOBE}` },
+    { label: 'Shirts', note: 'Collars, cuffs & fronts', icon: 'shirt_icon_for_mens_interlining.png', to: `/collections/${C.SHIRT}` },
+    { label: 'Jackets & Blazers', note: 'Fronts, lapels & facings', icon: 'jacket_image.png', to: `/collections/${C.JACKET}` },
+    { label: 'Trousers', note: 'Waistbands & pocketing', icon: 'trouser_image.png', to: `/collections/${C.NONWOVEN}` },
+    { label: 'Women’s Wear', note: 'Abayas, dresses & fronts', icon: 'womens_dress_image.png', to: `/collections/${C.SHIRT}` },
+    { label: 'Embroidery', note: 'Stable backing for stitching', icon: 'embroidery_image.png', to: `/collections/${C.EMBROIDERY}` },
   ],
   ourProducts: {
     title: 'Our Products',
@@ -146,7 +154,6 @@ export const ABOUT = {
     title: 'Mission',
     text: 'Bringing dependable, high-quality interlinings to the Gulf apparel industry with local stock and know-how — and building long-term partnerships as we grow into Africa and South Asia.',
     image: 'about_us_cta_banner_mission.jpg',
-    button: { label: 'Shop Now', to: `/collections/${C.THOBE}` },
   },
   why: {
     title: 'Why Clients Choose Us',

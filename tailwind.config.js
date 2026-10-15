@@ -35,6 +35,8 @@ export default {
         surface: {
           DEFAULT: '#FFFFFF',
           muted: '#F1F1F1',
+          tint: '#F3F5F9', // ~4% of brand navy on white
+
           subtle: '#F7F7F7',
           slate: '#BAC2D2',
         },
@@ -95,15 +97,36 @@ export default {
       },
       transitionTimingFunction: {
         'out-slow': 'cubic-bezier(0, 0, 0.3, 1)',
+        brand: 'cubic-bezier(0.22, 1, 0.36, 1)',
       },
       keyframes: {
         marquee: {
           from: { transform: 'translate3d(0, 0, 0)' },
           to: { transform: 'translate3d(-50%, 0, 0)' },
         },
+        kenburns: {
+          from: { transform: 'scale(1.0)' },
+          to: { transform: 'scale(1.07)' },
+        },
+        progress: {
+          from: { transform: 'scaleX(0)' },
+          to: { transform: 'scaleX(1)' },
+        },
+        'fade-up': {
+          from: { opacity: '0', transform: 'translate3d(0, 16px, 0)' },
+          to: { opacity: '1', transform: 'translate3d(0, 0, 0)' },
+        },
+        'scroll-cue': {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(100%)' },
+        },
       },
       animation: {
         marquee: 'marquee var(--marquee-duration, 40s) linear infinite',
+        kenburns: 'kenburns 9s cubic-bezier(0.22, 1, 0.36, 1) both',
+        progress: 'progress var(--slide-duration, 6s) linear both',
+        'fade-up': 'fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'scroll-cue': 'scroll-cue 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite',
       },
       aspectRatio: {
         product: '5 / 4',

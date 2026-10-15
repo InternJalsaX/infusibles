@@ -5,7 +5,8 @@ import { cdnSrcSet, cdnUrl } from '../../lib/images';
 /**
  * Responsive CDN image inside an aspect-ratio box. The box reserves space
  * before the image loads (no layout shift) and shows a neutral placeholder
- * if the file fails, so a missing photo never breaks the layout.
+ * if the file fails, so a missing photo never breaks the layout. The image
+ * is always visible — it never waits on a load event or animation to show.
  *
  * ratio: width / height number or CSS ratio string ("16 / 9"). Omit and pass
  *        `fill` to stretch into a parent that already has dimensions.
@@ -31,7 +32,7 @@ export default function Image({
 
   return (
     <div
-      className={`overflow-hidden transition-colors duration-500 ${status === 'loaded' ? 'bg-transparent' : 'bg-surface-subtle'} ${
+      className={`overflow-hidden ${status === 'loaded' ? 'bg-transparent' : 'bg-surface-subtle'} ${
         fill ? 'absolute inset-0' : 'relative'
       } ${className}`}
       style={wrapperStyle}
@@ -47,9 +48,7 @@ export default function Image({
           fetchpriority={priority ? 'high' : undefined}
           onLoad={() => setStatus('loaded')}
           onError={() => setStatus('error')}
-          className={`absolute inset-0 h-full w-full ${fitClass} transition-opacity duration-500 ${
-            status === 'loaded' ? 'opacity-100' : 'opacity-0'
-          } ${imgClassName}`}
+          className={`absolute inset-0 h-full w-full ${fitClass} ${imgClassName}`}
           {...rest}
         />
       ) : (

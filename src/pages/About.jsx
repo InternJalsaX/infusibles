@@ -1,4 +1,4 @@
-import Breadcrumbs from '../components/ui/Breadcrumbs';
+﻿import Breadcrumbs from '../components/ui/Breadcrumbs';
 import Image from '../components/ui/Image';
 import Reveal from '../components/ui/Reveal';
 import RichText from '../components/ui/RichText';
@@ -38,7 +38,7 @@ export default function About() {
           framed={Boolean(block.framed)}
           heading={block.title}
         >
-          <RichText paragraphs={block.body} className="text-justify [hyphens:auto]" />
+          <RichText paragraphs={block.body} className="max-w-[620px] text-pretty" />
         </ImageWithText>
       ))}
 
@@ -63,7 +63,7 @@ export default function About() {
             <ul className="list-disc space-y-4 pl-[25px] marker:text-ink/70">
               {ABOUT.why.points.map(([label, text]) => (
                 <li key={label}>
-                  <strong className="font-bold text-ink/85">{label}</strong> – {text}
+                  <strong className="font-bold text-ink/85">{label}</strong> â€“ {text}
                 </li>
               ))}
             </ul>

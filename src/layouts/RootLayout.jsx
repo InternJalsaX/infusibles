@@ -1,12 +1,12 @@
 import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { m } from 'framer-motion';
 import AnnouncementBar from '../components/layout/AnnouncementBar';
 import Header from '../components/layout/Header';
 import MobileMenu from '../components/layout/MobileMenu';
 import SearchModal from '../components/layout/SearchModal';
 import Footer from '../components/layout/Footer';
 import WhatsAppButton from '../components/layout/WhatsAppButton';
+import BackToTop from '../components/layout/BackToTop';
 import CartDrawer from '../components/cart/CartDrawer';
 import { useUI } from '../context/UIContext';
 
@@ -56,21 +56,14 @@ export default function RootLayout() {
       <SearchModal />
       <CartDrawer />
 
-      <m.main
-        id="main"
-        key={pathname}
-        tabIndex={-1}
-        className="min-h-[50vh] outline-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
-      >
+      <main id="main" key={pathname} tabIndex={-1} className="min-h-[50vh] outline-none">
         <Suspense fallback={<PageFallback />}>
           <Outlet />
         </Suspense>
-      </m.main>
+      </main>
 
       <Footer />
+      <BackToTop />
       <WhatsAppButton />
     </>
   );

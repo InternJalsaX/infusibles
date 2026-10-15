@@ -7,8 +7,14 @@
    ------------------------------------------------------------------ */
 @layer base {
   :root {
-    --header-height: 149px;
     --announcement-height: 40px;
+
+    /* Motion system — one easing family, three speeds. */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-fast: 200ms; /* hovers, toggles */
+    --dur-base: 450ms; /* menus, accordions, cards */
+    --dur-slow: 900ms; /* section + image reveals */
   }
 
   html {
@@ -37,7 +43,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid rgb(4 44 100 / 0.5);
+    outline: 2px solid rgb(4 44 100 / 0.55);
     outline-offset: 3px;
   }
 
@@ -83,51 +89,107 @@
     @apply font-heading text-h5-m font-normal md:text-h5;
   }
 
+  /* Editorial display heading for section openers */
+  .display {
+    @apply font-heading text-[34px] leading-[1.12] tracking-[-0.01em] md:text-[48px] lg:text-[56px];
+  }
+
+  /* Small uppercase label above headings */
+  .eyebrow {
+    @apply mb-4 inline-flex items-center gap-3 font-body text-[12px] font-medium uppercase tracking-[0.22em] text-maroon md:text-[13px];
+  }
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-8 bg-current opacity-60;
+  }
+  .eyebrow-light {
+    @apply text-white/80;
+  }
+
   .section-y {
     @apply py-section-m md:py-section;
+  }
+  /* Roomier editorial spacing for major sections */
+  .section-lg {
+    @apply py-16 md:py-24 lg:py-28;
   }
 
   /* Pill buttons (Dawn: min-height 54px, padding 0 34.5px, radius 40px) */
   .btn {
-    @apply relative inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-pill px-[34.5px] text-center font-body text-btn transition-[background-color,color,box-shadow,transform] duration-200 disabled:cursor-not-allowed disabled:opacity-50 md:min-h-[54px];
+    @apply relative inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-pill px-[34.5px] text-center font-body text-btn transition-[background-color,color,box-shadow,transform,border-color] disabled:cursor-not-allowed disabled:opacity-50 md:min-h-[54px];
+    transition-duration: var(--dur-fast);
+    transition-timing-function: var(--ease-out);
+  }
+  .btn:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+  .btn:not(:disabled):active {
+    transform: translateY(0);
+  }
+  .btn .btn-arrow {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
   }
   .btn-primary {
-    @apply bg-black text-[#f3f3f3] hover:shadow-[0_0_0_2px_#000];
+    @apply bg-black text-[#f3f3f3] hover:bg-navy hover:shadow-[0_10px_24px_-12px_rgb(4_44_100_/_0.6)];
   }
   .btn-secondary {
-    @apply border border-black bg-transparent text-black hover:shadow-[0_0_0_1px_#000];
+    @apply border border-black bg-transparent text-black hover:border-navy hover:bg-navy hover:text-white;
   }
   .btn-light {
-    @apply bg-white text-maroon-600 hover:shadow-[0_0_0_2px_#fff];
+    @apply bg-white text-maroon-600 hover:shadow-[0_10px_28px_-12px_rgb(0_0_0_/_0.45)];
+  }
+  .btn-outline-light {
+    @apply border border-white/80 bg-transparent text-white hover:bg-white hover:text-navy;
   }
   .btn-navy {
-    @apply bg-navy text-white hover:bg-navy-600;
+    @apply bg-navy text-white hover:bg-navy-600 hover:shadow-[0_10px_24px_-12px_rgb(4_44_100_/_0.7)];
   }
   .btn-blue {
     @apply bg-accent-blue text-white hover:bg-accent-blue-dark;
   }
   .btn-maroon {
-    @apply bg-maroon text-white hover:bg-maroon-600;
+    @apply bg-maroon text-white hover:bg-maroon-600 hover:shadow-[0_10px_24px_-12px_rgb(130_23_23_/_0.7)];
   }
 
-  /* Underline that grows on hover (nav + inline links) */
+  /* Text link with an underline that draws in from the left */
+  .link-draw {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size var(--dur-base) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+  .link-draw:hover,
+  .link-draw[aria-current='page'],
+  .link-draw.is-active {
+    background-size: 100% 1px;
+  }
+
   .link-underline {
     @apply underline-offset-[0.3rem] hover:underline;
     text-decoration-thickness: 1px;
   }
 
-  /* Form fields (Dawn: 1px border at 55% opacity, square corners) */
+  /* Form fields */
   .field {
     @apply relative flex;
   }
   .field-input {
-    @apply h-[52px] w-full border border-line-strong bg-transparent px-[17.25px] pb-0 pt-[18px] text-body-lg text-ink outline-none transition-shadow placeholder:text-transparent focus:shadow-[0_0_0_1px_rgb(17_17_17_/_0.55)];
+    @apply h-[56px] w-full border border-line-strong/60 bg-white px-[17.25px] pb-0 pt-[18px] text-body-lg text-ink outline-none transition-[border-color,box-shadow] placeholder:text-transparent hover:border-ink/60 focus:border-navy focus:shadow-[0_0_0_3px_rgb(4_44_100_/_0.12)] aria-[invalid=true]:border-maroon aria-[invalid=true]:shadow-[0_0_0_3px_rgb(130_23_23_/_0.1)];
   }
   .field-textarea {
-    @apply min-h-[116px] w-full resize-y border border-line-strong bg-transparent px-[17.25px] pb-3 pt-[28px] text-body-lg text-ink outline-none placeholder:text-transparent focus:shadow-[0_0_0_1px_rgb(17_17_17_/_0.55)];
+    @apply min-h-[140px] w-full resize-y border border-line-strong/60 bg-white px-[17.25px] pb-3 pt-[28px] text-body-lg text-ink outline-none transition-[border-color,box-shadow] placeholder:text-transparent hover:border-ink/60 focus:border-navy focus:shadow-[0_0_0_3px_rgb(4_44_100_/_0.12)] aria-[invalid=true]:border-maroon;
+  }
+  .field .field-input[aria-invalid='true'],
+  .field .field-textarea[aria-invalid='true'] {
+    border-color: rgb(130 23 23);
+    box-shadow: 0 0 0 3px rgb(130 23 23 / 0.1);
   }
   .field-label {
-    @apply pointer-events-none absolute left-[17.25px] top-[14px] text-body-lg text-ink-body transition-all duration-150 peer-focus:top-[6px] peer-focus:text-[12px] peer-[:not(:placeholder-shown)]:top-[6px] peer-[:not(:placeholder-shown)]:text-[12px];
+    @apply pointer-events-none absolute left-[17.25px] top-[16px] text-body-lg text-ink-body transition-all duration-200 peer-focus:top-[7px] peer-focus:text-[12px] peer-focus:text-navy peer-[:not(:placeholder-shown)]:top-[7px] peer-[:not(:placeholder-shown)]:text-[12px];
   }
 
   /* Rich text blocks */
@@ -150,6 +212,12 @@
     @apply h4 mb-2 mt-6 text-ink;
   }
 
+  /* Faint woven-cloth texture for tinted sections */
+  .texture-weave {
+    background-image: repeating-linear-gradient(0deg, rgb(4 44 100 / 0.014) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgb(4 44 100 / 0.014) 0 1px, transparent 1px 3px);
+  }
+
   /* Thin scrollbar for horizontal scrollers */
   .scroll-thin {
     scrollbar-width: thin;
@@ -162,7 +230,62 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Scroll reveals (driven by IntersectionObserver in <Reveal>).
+   Hidden states only apply while JS has marked the element as pending,
+   and never under reduced motion — content can't get stuck invisible
+   without the animation system running.
+   ------------------------------------------------------------------ */
 @layer utilities {
+  .reveal {
+    transition-property: opacity, transform, clip-path;
+    transition-duration: var(--dur-slow);
+    transition-timing-function: var(--ease-out);
+    will-change: opacity, transform;
+  }
+  .reveal.is-pending.reveal-up {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  .reveal.is-pending.reveal-fade {
+    opacity: 0;
+  }
+  .reveal.is-pending.reveal-scale {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  /* Image curtain: clips up from the bottom while the photo settles */
+  .reveal-mask .reveal-mask-inner {
+    transition: clip-path 1.1s var(--ease-out);
+  }
+  .reveal.is-pending.reveal-mask .reveal-mask-inner {
+    clip-path: inset(0 0 100% 0);
+  }
+  .reveal.reveal-mask img {
+    transition: transform 1.4s var(--ease-out);
+  }
+  .reveal.is-pending.reveal-mask img {
+    transform: scale(1.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal.is-pending,
+    .reveal.is-pending .reveal-mask-inner {
+      opacity: 1 !important;
+      transform: none !important;
+      clip-path: none !important;
+    }
+  }
+
+  /* Hero: masked line-by-line text entrance on page load */
+  .line-mask {
+    @apply block overflow-hidden pb-[0.08em];
+  }
+  .line-mask > span {
+    @apply block;
+    animation: line-up 1s var(--ease-out) both;
+  }
+
   .text-balance {
     text-wrap: balance;
   }
@@ -171,5 +294,14 @@
   }
   .pause-on-hover:hover {
     animation-play-state: paused;
+  }
+}
+
+@keyframes line-up {
+  from {
+    transform: translate3d(0, 105%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }

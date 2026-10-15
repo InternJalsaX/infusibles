@@ -83,14 +83,19 @@ export default function Collection() {
 
   return (
     <>
-      <Breadcrumbs items={[{ label: 'Shop Now', to: handle === 'all' ? undefined : '/collections/all' }, ...(handle === 'all' ? [] : [{ label: collection.title }])]} />
+      <Breadcrumbs items={[{ label: collection.title }]} />
 
       {collection.banner && <Image src={collection.banner} alt={collection.title} ratio="5000 / 1537" priority sizes="100vw" widths={[640, 960, 1280, 1600, 1920, 2560]} />}
 
-      <section className="page-width pb-6 pt-8 text-center md:pb-[40px] md:pt-[46px]">
+      <section className="page-width pb-8 pt-12 text-center md:pb-12 md:pt-20">
+        <Reveal variant="fade">
+          <p className="eyebrow justify-center">
+            {base.length} {base.length === 1 ? 'product' : 'products'}
+          </p>
+        </Reveal>
         <Reveal>
-          <h1 className="h1 mb-4 text-ink md:mb-[26px]">{collection.title}</h1>
-          <p className="mx-auto max-w-[880px] text-ink-body">{collection.description}</p>
+          <h1 className="display mb-5 text-ink md:mb-7">{collection.title}</h1>
+          <p className="mx-auto max-w-[760px] text-pretty leading-[1.8] text-ink-body">{collection.description}</p>
         </Reveal>
       </section>
 

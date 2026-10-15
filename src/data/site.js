@@ -45,7 +45,6 @@ export const MAIN_NAV = [
   { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },
   { label: 'Product', to: '/products' },
-  { label: 'Shop Now', to: '/collections/arabic-thobe-interlinings', children: SHOP_MENU },
   { label: 'Blog', to: '/blog' },
   { label: 'Contact', to: '/contact' },
 ];

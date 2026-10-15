@@ -73,7 +73,6 @@ export default function ProductDetail() {
     <>
       <Breadcrumbs
         items={[
-          { label: 'Shop Now', to: '/collections/all' },
           ...(collection ? [{ label: collection.title, to: `/collections/${collection.handle}` }] : []),
           { label: product.title },
         ]}
@@ -81,7 +80,7 @@ export default function ProductDetail() {
 
       <section className="page-width pb-12 pt-4 md:pb-[60px] md:pt-[36px]">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] md:gap-10 lg:grid-cols-[minmax(0,820px)_minmax(0,398px)] lg:justify-between">
-          <div className="md:sticky md:top-[calc(var(--announcement-height)+24px)] md:self-start">
+          <div className="md:sticky md:top-[calc(var(--announcement-height)+150px)] md:self-start">
             <ProductGallery images={product.images} title={product.title} />
           </div>
 

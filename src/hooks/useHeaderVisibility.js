@@ -1,33 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * Dawn-style "sticky on scroll up" header: hidden while scrolling down past
- * the header, revealed as soon as the user scrolls up.
+ * Sticky-header state. `compact` flips once the page scrolls past
+ * `threshold`; `progressRef` receives a scaleX transform that tracks reading
+ * progress. Progress is written straight to the DOM (no React re-render per
+ * scroll frame) to keep scrolling smooth.
  */
-export function useHeaderVisibility(threshold = 160) {
-  const [hidden, setHidden] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const last = useRef(0);
+export function useHeaderState(threshold = 48) {
+  const [compact, setCompact] = useState(false);
+  const progressRef = useRef(null);
 
   useEffect(() => {
     let frame = 0;
+    const update = () => {
+      const y = window.scrollY;
+      setCompact((prev) => (prev ? y > threshold - 24 : y > threshold)); // hysteresis avoids flicker
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
+      }
+    };
     const onScroll = () => {
       cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const y = window.scrollY;
-        setScrolled(y > 4);
-        if (y < threshold) setHidden(false);
-        else if (y > last.current + 4) setHidden(true);
-        else if (y < last.current - 4) setHidden(false);
-        last.current = y;
-      });
+      frame = requestAnimationFrame(update);
     };
+    update();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
     };
   }, [threshold]);
 
-  return { hidden, scrolled };
+  return { compact, progressRef };
 }

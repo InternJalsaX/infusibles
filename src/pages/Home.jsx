@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
 import HeroSlideshow from '../components/home/HeroSlideshow';
+import BrandIntro from '../components/home/BrandIntro';
 import FeaturedProducts from '../components/home/FeaturedProducts';
 import ApplicationAreas from '../components/home/ApplicationAreas';
 import WhyChooseUs from '../components/home/WhyChooseUs';
-import RichTextSection from '../components/sections/RichTextSection';
 import ImageWithText from '../components/sections/ImageWithText';
 import CtaBanner from '../components/sections/CtaBanner';
 import RichText from '../components/ui/RichText';
@@ -34,34 +35,58 @@ export default function Home() {
       <h1 className="sr-only">Infuse – premium fusible interlinings for the Gulf, India and South Africa</h1>
       <HeroSlideshow slides={HERO_SLIDES} />
 
-      <RichTextSection title={HOME.intro.title} segments={HOME.intro.body} />
+      <BrandIntro intro={HOME.intro} />
 
-      <ImageWithText image={HOME.story.image} ratio={HOME.story.ratio} alt={HOME.story.alt} heading={HOME.story.title}>
-        <RichText paragraphs={HOME.story.body} className="text-justify [hyphens:auto]" />
+      <ImageWithText eyebrow="Who we are" image={HOME.story.image} ratio={HOME.story.ratio} alt={HOME.story.alt} heading={HOME.story.title}>
+        <RichText paragraphs={HOME.story.body} className="max-w-[620px] text-pretty" />
       </ImageWithText>
 
       <ImageWithText
+        eyebrow="Our craft"
         image={HOME.precision.image}
         ratio={HOME.precision.ratio}
         alt={HOME.precision.alt}
         imageSide="right"
         heading={HOME.precision.title}
+        className="bg-surface-tint"
       >
-        <RichText paragraphs={HOME.precision.body} />
+        <RichText paragraphs={HOME.precision.body} className="max-w-[620px] text-pretty" />
       </ImageWithText>
 
       <FeaturedProducts products={TOP_PRODUCTS} viewAllTo="/collections/all" />
 
-      <CtaBanner title={HOME.cta.title} text={HOME.cta.text} image={HOME.cta.image} button={HOME.cta.button} />
+      <CtaBanner
+        eyebrow="Wholesale enquiries"
+        title={HOME.cta.title}
+        text={HOME.cta.text}
+        image={HOME.cta.image}
+        button={HOME.cta.button}
+        secondary={{ label: 'Chat on WhatsApp', href: SITE.whatsappHref }}
+      />
 
       <ApplicationAreas items={HOME.applications} />
 
-      <ImageWithText image={HOME.ourProducts.image} ratio={HOME.ourProducts.ratio} alt={HOME.ourProducts.alt} heading={HOME.ourProducts.title}>
-        <ul className="list-disc space-y-0 pl-[48px] marker:text-ink/70">
+      <ImageWithText
+        eyebrow="The range"
+        image={HOME.ourProducts.image}
+        ratio={HOME.ourProducts.ratio}
+        alt={HOME.ourProducts.alt}
+        heading={HOME.ourProducts.title}
+        className="bg-surface-tint"
+      >
+        <ul className="divide-y divide-navy/10 border-y border-navy/10">
           {HOME.ourProducts.items.map((item) => (
             <li key={item.label}>
-              <Link to={item.to} className="underline-offset-[0.3rem] transition-colors hover:text-navy hover:underline">
-                {item.label}
+              <Link
+                to={item.to}
+                className="group flex items-center justify-between gap-4 py-3.5 text-ink/80 transition-colors duration-200 hover:text-navy"
+              >
+                <span className="transition-transform duration-300 ease-brand group-hover:translate-x-1.5">{item.label}</span>
+                <ArrowUpRight
+                  className="h-4 w-4 shrink-0 text-navy/40 transition-all duration-300 ease-brand group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-maroon"
+                  strokeWidth={1.75}
+                  aria-hidden="true"
+                />
               </Link>
             </li>
           ))}
@@ -70,7 +95,7 @@ export default function Home() {
 
       <WhyChooseUs items={HOME.why} />
 
-      <FAQ items={HOME_FAQS} tone="maroon" titleSize="h1" />
+      <FAQ items={HOME_FAQS} tone="maroon" />
     </>
   );
 }

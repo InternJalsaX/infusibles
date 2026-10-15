@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, m } from 'framer-motion';
-import { ArrowLeft, ChevronRight, Instagram, Linkedin, Search, User } from 'lucide-react';
+import { Instagram, Linkedin, Search, User } from 'lucide-react';
 import { MAIN_NAV, SITE } from '../../data/site';
 import { useUI } from '../../context/UIContext';
 import { useAccount } from '../../context/AccountContext';
@@ -16,13 +16,12 @@ const SOCIAL_ICONS = { instagram: Instagram, linkedin: Linkedin };
 /**
  * Mobile navigation drawer. Opens beneath the header (the header's
  * hamburger turns into a close button), with an inline search field,
- * a sliding "Shop Now" submenu and account/country controls at the bottom.
+ * the main links and account/country controls at the bottom.
  */
 export default function MobileMenu() {
   const { overlay, close } = useUI();
   const { customer } = useAccount();
   const open = overlay === 'menu';
-  const [submenu, setSubmenu] = useState(null);
   const [query, setQuery] = useState('');
   const [top, setTop] = useState(0);
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ export default function MobileMenu() {
   }, [pathname, close]);
 
   useEffect(() => {
-    if (!open) setSubmenu(null);
     if (!open) return undefined;
     const onKey = (e) => e.key === 'Escape' && close();
     document.addEventListener('keydown', onKey);
@@ -99,60 +97,15 @@ export default function MobileMenu() {
                 </div>
               </form>
 
-              <AnimatePresence initial={false} mode="popLayout">
-                {!submenu ? (
-                  <m.ul
-                    key="root"
-                    initial={{ x: '-30%', opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '-30%', opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="py-2"
-                  >
-                    {MAIN_NAV.map((item) => (
-                      <li key={item.label}>
-                        {item.children ? (
-                          <button type="button" className={itemClass} onClick={() => setSubmenu(item)} aria-expanded="false">
-                            {item.label}
-                            <ChevronRight className="h-5 w-5" strokeWidth={1.25} aria-hidden="true" />
-                          </button>
-                        ) : (
-                          <NavLink
-                            to={item.to}
-                            end
-                            className={({ isActive }) => `${itemClass} ${isActive ? 'bg-ink/[0.04] text-ink' : ''}`}
-                          >
-                            {item.label}
-                          </NavLink>
-                        )}
-                      </li>
-                    ))}
-                  </m.ul>
-                ) : (
-                  <m.div
-                    key="sub"
-                    initial={{ x: '40%', opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: '40%', opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="py-2"
-                  >
-                    <button type="button" className={`${itemClass} justify-start gap-3`} onClick={() => setSubmenu(null)}>
-                      <ArrowLeft className="h-5 w-5" strokeWidth={1.25} aria-hidden="true" />
-                      {submenu.label}
-                    </button>
-                    <ul>
-                      {submenu.children.map((child) => (
-                        <li key={child.to}>
-                          <NavLink to={child.to} className={({ isActive }) => `${itemClass} ${isActive ? 'bg-ink/[0.04] text-ink' : ''}`}>
-                            {child.label}
-                          </NavLink>
-                        </li>
-                      ))}
-                    </ul>
-                  </m.div>
-                )}
-              </AnimatePresence>
+              <ul className="py-2">
+                {MAIN_NAV.map((item) => (
+                  <li key={item.label}>
+                    <NavLink to={item.to} end className={({ isActive }) => `${itemClass} ${isActive ? 'bg-ink/[0.04] text-ink' : ''}`}>
+                      {item.label}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="border-t border-line bg-ink/[0.03] px-[24px] pb-6 pt-4 md:px-[34.5px]">
